@@ -50,6 +50,13 @@ namespace MedicMvc.Controllers
             return View();
         }
 
+        public ActionResult About()
+        {
+            ViewBag.Message = "About page.";
+
+            return View();
+        }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

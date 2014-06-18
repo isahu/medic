@@ -315,6 +315,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\Communicate.cshtml" />
+    <Content Include="Views\Home\Medicine.cshtml" />
+    <Content Include="Views\Home\Discharge.cshtml" />
+    <Content Include="Views\Home\Rating.cshtml" />
+    <Content Include="Views\Home\Pain.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
