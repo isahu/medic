@@ -2,9 +2,15 @@
 <html>
     <head>
         <title>@Page.Title</title>
+        <!-- bootstrap -->
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        <script src="js/search.js"></script>
         @RenderSection("head", required: false)
     </head>
-    <body>
-        @RenderBody()
+    <body style="background-color: darkgray">
+        <div class="container" style="background-color: whitesmoke">
+            @RenderPage("~/Views/Shared/_HeaderView.cshtml")
+            @RenderBody()
+        </div>
     </body>
 </html>

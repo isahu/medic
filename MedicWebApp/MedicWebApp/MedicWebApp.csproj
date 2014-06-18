@@ -102,6 +102,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="packages.config" />
+    <Content Include="Views\Shared\_HeaderView.cshtml" />
+    <Content Include="Views\_RatingView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
