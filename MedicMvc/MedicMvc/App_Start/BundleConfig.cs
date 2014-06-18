@@ -1,43 +1,59 @@
-﻿using System.Web;
+﻿using BundleTransformer.Core.Bundles;
+using BundleTransformer.Core.Orderers;
+using BundleTransformer.Core.Transformers;
+using System.Web;
 using System.Web.Optimization;
 
 namespace MedicMvc
 {
     public class BundleConfig
     {
-        // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
+        // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+            BundleTable.EnableOptimizations = false;
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-                        "~/Scripts/jquery-ui-{version}.js"));
+            bundles.UseCdn = true;
+            var cssTransformer = new CssTransformer();
+            var jsTransformer = new JsTransformer();
+            var nullOrderer = new NullOrderer();
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.unobtrusive*",
-                        "~/Scripts/jquery.validate*"));
+            var cssBundle = new CustomStyleBundle("~/bundles/css");
+            cssBundle.Include("~/Content/Site.less", "~/Content/bootstrap/bootstrap.less");
+            cssBundle.Transforms.Add(cssTransformer);
+            cssBundle.Orderer = nullOrderer;
+            bundles.Add(cssBundle);
+
+            var jqueryBundle = new CustomScriptBundle("~/bundles/jquery");
+            jqueryBundle.Include("~/Scripts/jquery-{version}.js");
+            jqueryBundle.Transforms.Add(jsTransformer);
+            jqueryBundle.Orderer = nullOrderer;
+            bundles.Add(jqueryBundle);
+
+            var jqueryvalBundle = new CustomScriptBundle("~/bundles/jqueryval");
+            jqueryvalBundle.Include("~/Scripts/jquery.validate*");
+            jqueryvalBundle.Transforms.Add(jsTransformer);
+            jqueryvalBundle.Orderer = nullOrderer;
+            bundles.Add(jqueryvalBundle);
+
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+            var modernizrBundle = new CustomScriptBundle("~/bundles/modernizr");
+            modernizrBundle.Include("~/Scripts/modernizr-*");
+            modernizrBundle.Transforms.Add(jsTransformer);
+            modernizrBundle.Orderer = nullOrderer;
+            bundles.Add(modernizrBundle);
 
-            bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
-                        "~/Content/themes/base/jquery.ui.core.css",
-                        "~/Content/themes/base/jquery.ui.resizable.css",
-                        "~/Content/themes/base/jquery.ui.selectable.css",
-                        "~/Content/themes/base/jquery.ui.accordion.css",
-                        "~/Content/themes/base/jquery.ui.autocomplete.css",
-                        "~/Content/themes/base/jquery.ui.button.css",
-                        "~/Content/themes/base/jquery.ui.dialog.css",
-                        "~/Content/themes/base/jquery.ui.slider.css",
-                        "~/Content/themes/base/jquery.ui.tabs.css",
-                        "~/Content/themes/base/jquery.ui.datepicker.css",
-                        "~/Content/themes/base/jquery.ui.progressbar.css",
-                        "~/Content/themes/base/jquery.ui.theme.css"));
+
+            var bootstrapBundle = new CustomScriptBundle("~/bundles/bootstrap");
+            bootstrapBundle.Include("~/Scripts/bootstrap.js", "~/Scripts/respond.js");
+            bootstrapBundle.Transforms.Add(jsTransformer);
+            bootstrapBundle.Orderer = nullOrderer;
+            bundles.Add(bootstrapBundle);
+
+
         }
     }
 }
