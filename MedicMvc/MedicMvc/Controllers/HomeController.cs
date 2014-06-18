@@ -8,9 +8,61 @@ namespace MedicMvc.Controllers
 {
     public class HomeController : Controller
     {
+        //private string mActiveTab = "Index";
+        //public string ActiveTab
+        //{
+        //    get { return mActiveTab; }
+        //    set { mActiveTab = value; }
+        //}
+
+        private void SetActiveTab(string active)
+        {
+            ViewBag.IndexClass = "";
+            ViewBag.CommunicateClass = "";
+            ViewBag.MedicineClass = "";
+            ViewBag.DischargeClass = "";
+            ViewBag.RatingClass = "";
+            ViewBag.PainClass = "";
+            ViewBag.AboutClass = "";
+            ViewBag.ContactClass = "";
+
+            switch (active)
+            {
+                case "Index":
+                    ViewBag.IndexClass = "active";
+                    break;
+                case "Communicate":
+                    ViewBag.CommunicateClass = "active";
+                    break;
+                case "Medicine":
+                    ViewBag.MedicineClass = "active";
+                    break;
+                case "Discharge":
+                    ViewBag.DischargeClass = "active";
+                    break;
+                case "Rating":
+                    ViewBag.RatingClass = "active";
+                    break;
+                case "Pain":
+                    ViewBag.PainClass = "active";
+                    break;
+                case "About":
+                    ViewBag.AboutClass = "active";
+                    break;
+                case "Contact":
+                    ViewBag.ContactClass = "active";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        #region Actions
+
         public ActionResult Index()
         {
             ViewBag.Message = "Home Page.";
+            SetActiveTab("Index");
 
             return View();
         }
@@ -18,6 +70,7 @@ namespace MedicMvc.Controllers
         public ActionResult Communicate()
         {
             ViewBag.Message = "Communicate with Doctors and Nurses";
+            SetActiveTab("Communicate");
 
             return View();
         }
@@ -25,6 +78,7 @@ namespace MedicMvc.Controllers
         public ActionResult Medicine()
         {
             ViewBag.Message = "Medicine info page.";
+            SetActiveTab("Medicine");
 
             return View();
         }
@@ -32,6 +86,7 @@ namespace MedicMvc.Controllers
         public ActionResult Discharge()
         {
             ViewBag.Message = "Discharge informationn page.";
+            SetActiveTab("Discharge");
 
             return View();
         }
@@ -39,6 +94,7 @@ namespace MedicMvc.Controllers
         public ActionResult Rating()
         {
             ViewBag.Message = "Hospital Rating page.";
+            SetActiveTab("Rating");
 
             return View();
         }
@@ -46,6 +102,7 @@ namespace MedicMvc.Controllers
         public ActionResult Pain()
         {
             ViewBag.Message = "Pain Management page.";
+            SetActiveTab("Pain");
 
             return View();
         }
@@ -53,6 +110,7 @@ namespace MedicMvc.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "About page.";
+            SetActiveTab("About");
 
             return View();
         }
@@ -60,8 +118,11 @@ namespace MedicMvc.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+            SetActiveTab("Contact");
 
             return View();
         }
+
+        #endregion // Actions
     }
 }

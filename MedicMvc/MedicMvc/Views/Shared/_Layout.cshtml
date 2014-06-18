@@ -6,7 +6,6 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/bundles/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -21,13 +20,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Communicate", "Communicate", "Home")</li>
-                    <li>@Html.ActionLink("Medicine", "Medicine", "Home")</li>
-                    <li>@Html.ActionLink("Discharge Information", "Discharge", "Home")</li>
-                    <li>@Html.ActionLink("Hospital Rating", "Rating", "Home")</li>
-                    <li>@Html.ActionLink("Pain Management", "Pain", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                    <li class="@ViewBag.CommunicateClass">@Html.ActionLink("Communicate", "Communicate", "Home")</li>
+                    <li class="@ViewBag.MedicineClass">@Html.ActionLink("Medicine", "Medicine", "Home")</li>
+                    <li class="@ViewBag.DischargeClass">@Html.ActionLink("Discharge Information", "Discharge", "Home")</li>
+                    <li class="@ViewBag.RatingClass">@Html.ActionLink("Hospital Rating", "Rating", "Home")</li>
+                    <li class="@ViewBag.PainClass">@Html.ActionLink("Pain Management", "Pain", "Home")</li>
+                    <li class="@ViewBag.AboutClass">@Html.ActionLink("About", "About", "Home")</li>
+                    <li class="@ViewBag.ContactClass">@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -37,7 +36,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - MEDIC Web Group</p>
         </footer>
     </div>
 
