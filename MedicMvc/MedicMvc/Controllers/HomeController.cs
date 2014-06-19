@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
+using System.IO;
+
+using Google.Apis.Services;
+using Google.Apis.Customsearch.v1;
+using Google.Apis.Customsearch.v1.Data;
+using System.Diagnostics;
 
 namespace MedicMvc.Controllers
 {
     public class HomeController : Controller
     {
-        //private string mActiveTab = "Index";
-        //public string ActiveTab
-        //{
-        //    get { return mActiveTab; }
-        //    set { mActiveTab = value; }
-        //}
+        #region Private Methods
 
         private void SetActiveTab(string active)
         {
@@ -56,6 +58,37 @@ namespace MedicMvc.Controllers
                     break;
             }
         }
+
+        public void GetSearch(string query)
+        {
+            StreamWriter writer = new StreamWriter("E:\\Temp\\log.txt");
+
+            // Create the service.
+            var service = new CustomsearchService(new BaseClientService.Initializer
+            {
+                ApplicationName = "Discovery Sample",
+                ApiKey = Properties.Settings.Default.APIKey,
+            });
+
+            // Run the request.
+            Debug.WriteLine("Executing a list request...");
+            CseResource.ListRequest request = service.Cse.List("Arthritis");
+            request.Cx = Properties.Settings.Default.SearchID;
+
+            var result = request.Execute();
+
+            Debug.WriteLine(result.SearchInformation.FormattedTotalResults);
+
+            foreach (var item in result.Items)
+            {
+                writer.WriteLine(item.Title);
+            }
+
+            //writer.Write(result.ToString());
+            writer.Close();
+        }
+
+        #endregion // Private Methods
 
         #region Actions
 
@@ -119,6 +152,8 @@ namespace MedicMvc.Controllers
         {
             ViewBag.Message = "Your contact page.";
             SetActiveTab("Contact");
+
+            GetSearch("Arthritis");
 
             return View();
         }

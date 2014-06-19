@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MedicMvc.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="APIKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">AIzaSyCy8d5A2Q6Bh6p_PbwCL3j9BuHRAPDNrFE</Value>
+    </Setting>
+    <Setting Name="SearchID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">007427628917047757297:a3qyb37jb50</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
