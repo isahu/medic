@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Google.Apis.Customsearch.v1.Data.Result>
+
+<table class="table">
+    <tr>
+        <th>Results</th>
+    </tr>
+
+@{
+    ViewBag.Title = "Results";
+}
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <a href="@item.Link">@item.Title</a>
+        </td>
+    </tr>
+}
+
+</table>

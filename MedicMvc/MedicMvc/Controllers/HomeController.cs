@@ -10,6 +10,8 @@ using Google.Apis.Services;
 using Google.Apis.Customsearch.v1;
 using Google.Apis.Customsearch.v1.Data;
 using System.Diagnostics;
+using MedicMvc.Helpers;
+using MedicMvc.Models;
 
 namespace MedicMvc.Controllers
 {
@@ -153,9 +155,24 @@ namespace MedicMvc.Controllers
             ViewBag.Message = "Your contact page.";
             SetActiveTab("Contact");
 
-            GetSearch("Arthritis");
+            //GetSearch("Arthritis");
+            Helpers.SearchInterface.Querry("Arthritis");
 
             return View();
+        }
+
+        //private List<ResultModel> results;
+
+        public ActionResult HandleSearch(string searchTextInput)
+        {
+            Search s = SearchInterface.Querry(searchTextInput);
+
+            //results = new List<ResultModel>();
+            //foreach (Result r in s.Items)
+            //{
+            //    results.Add(new ResultModel(r));
+            //}
+            return View("SearchResults", s.Items);
         }
 
         #endregion // Actions
