@@ -22,7 +22,7 @@ namespace MedicMvc.Helpers
 
             // Run the request.
             Debug.WriteLine("Executing a list request...");
-            CseResource.ListRequest request = service.Cse.List("Arthritis");
+            CseResource.ListRequest request = service.Cse.List(q);
             request.Cx = Properties.Settings.Default.SearchID;
 
             var results = request.Execute();

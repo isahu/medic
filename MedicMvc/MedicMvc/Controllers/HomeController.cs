@@ -61,35 +61,6 @@ namespace MedicMvc.Controllers
             }
         }
 
-        public void GetSearch(string query)
-        {
-            StreamWriter writer = new StreamWriter("E:\\Temp\\log.txt");
-
-            // Create the service.
-            var service = new CustomsearchService(new BaseClientService.Initializer
-            {
-                ApplicationName = "Discovery Sample",
-                ApiKey = Properties.Settings.Default.APIKey,
-            });
-
-            // Run the request.
-            Debug.WriteLine("Executing a list request...");
-            CseResource.ListRequest request = service.Cse.List("Arthritis");
-            request.Cx = Properties.Settings.Default.SearchID;
-
-            var result = request.Execute();
-
-            Debug.WriteLine(result.SearchInformation.FormattedTotalResults);
-
-            foreach (var item in result.Items)
-            {
-                writer.WriteLine(item.Title);
-            }
-
-            //writer.Write(result.ToString());
-            writer.Close();
-        }
-
         #endregion // Private Methods
 
         #region Actions
@@ -155,17 +126,13 @@ namespace MedicMvc.Controllers
             ViewBag.Message = "Your contact page.";
             SetActiveTab("Contact");
 
-            //GetSearch("Arthritis");
-            Helpers.SearchInterface.Querry("Arthritis");
-
             return View();
         }
-
-        //private List<ResultModel> results;
-
         public ActionResult HandleSearch(string searchTextInput)
         {
             Search s = SearchInterface.Querry(searchTextInput);
+
+            Debug.WriteLine(searchTextInput);
 
             //results = new List<ResultModel>();
             //foreach (Result r in s.Items)
