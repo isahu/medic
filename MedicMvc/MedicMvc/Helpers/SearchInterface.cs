@@ -22,6 +22,12 @@ namespace MedicMvc.Helpers
 
             // Run the request.
             Debug.WriteLine("Executing a list request...");
+
+            if (q == null)
+            {
+                throw new NullReferenceException("querry string is null");
+            }
+
             CseResource.ListRequest request = service.Cse.List(q);
             request.Cx = Properties.Settings.Default.SearchID;
 

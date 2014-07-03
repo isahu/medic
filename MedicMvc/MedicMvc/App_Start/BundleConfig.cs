@@ -19,7 +19,8 @@ namespace MedicMvc
             var nullOrderer = new NullOrderer();
 
             var cssBundle = new CustomStyleBundle("~/bundles/css");
-            cssBundle.Include("~/Content/Site.less", "~/Content/bootstrap/bootstrap.less");
+            cssBundle.Include("~/Content/Site.less",
+                              "~/Content/bootstrap/bootstrap.less", "~/Content/converse.min.css");
             cssBundle.Transforms.Add(cssTransformer);
             cssBundle.Orderer = nullOrderer;
             bundles.Add(cssBundle);
@@ -53,7 +54,11 @@ namespace MedicMvc
             bootstrapBundle.Orderer = nullOrderer;
             bundles.Add(bootstrapBundle);
 
-
+            var converseJsBundle = new CustomScriptBundle("~/bundles/converse");
+            converseJsBundle.Include("~/Scripts/converse.min.js");
+            converseJsBundle.Transforms.Add(jsTransformer);
+            converseJsBundle.Orderer = nullOrderer;
+            bundles.Add(converseJsBundle);
         }
     }
 }

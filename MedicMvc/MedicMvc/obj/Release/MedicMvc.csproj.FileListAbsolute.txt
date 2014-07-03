@@ -93,3 +93,6 @@ E:\Users\Jones\Documents\GitHub\medic\MedicMvc\MedicMvc\obj\Release\MedicMvc.csp
 E:\Users\Jones\Documents\GitHub\medic\MedicMvc\MedicMvc\obj\Release\MVC5Bootstrap-3-1-1-Less.dll
 E:\Users\Jones\Documents\GitHub\medic\MedicMvc\MedicMvc\obj\Release\MVC5Bootstrap-3-1-1-Less.pdb
 E:\Users\Jones\Documents\GitHub\medic\MedicMvc\MedicMvc\obj\Release\MedicMvc.csprojResolveAssemblyReference.cache
+E:\Users\Jones\Documents\GitHub\medic\MedicMvc\MedicMvc\bin\System.Web.Cors.dll
+E:\Users\Jones\Documents\GitHub\medic\MedicMvc\MedicMvc\bin\System.Web.Http.Cors.dll
+E:\Users\Jones\Documents\GitHub\medic\MedicMvc\MedicMvc\bin\System.Web.Http.Cors.xml

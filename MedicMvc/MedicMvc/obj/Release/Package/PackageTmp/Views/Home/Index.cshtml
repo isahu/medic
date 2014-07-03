@@ -5,13 +5,12 @@
     <h1>Medic Web</h1>
     <p class="lead">Search</p>
     <script src="~/Scripts/search.js"></script>
-    <p><gcse:searchbox></gcse:searchbox></p>
+    <div>@RenderPage("~/Views/Shared/_Search.cshtml")</div>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
-        @RenderPage("~/Views/Shared/_Search.cshtml")
-        @*<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+        @*<h2>Getting started</h2>
+        @RenderPage("~/Views/Shared/_Search.cshtml")*@
     </div>
 </div>
