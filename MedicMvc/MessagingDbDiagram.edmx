@@ -1,0 +1,750 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Edmx Version="3.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <Runtime>
+    <ConceptualModels>
+      <Schema Namespace="MessagingTest.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Message" customannotation:ClrType="MessagingTest.Models.Message, MessagingTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Recipients" Relationship="Self.Recipient_Message" FromRole="Recipient_Message_Target" ToRole="Recipient_Message_Source" />
+          <NavigationProperty Name="Sender" Relationship="Self.Message_Sender" FromRole="Message_Sender_Source" ToRole="Message_Sender_Target" />
+        </EntityType>
+        <EntityType Name="Recipient" customannotation:ClrType="MessagingTest.Models.Recipient, MessagingTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="MessageId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="MessageId" Type="Int64" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Recieved" Type="Boolean" Nullable="false" />
+          <Property Name="Read" Type="Boolean" Nullable="false" />
+          <Property Name="TimeRecieved" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Message" Relationship="Self.Recipient_Message" FromRole="Recipient_Message_Source" ToRole="Recipient_Message_Target" />
+          <NavigationProperty Name="User" Relationship="Self.Recipient_User" FromRole="Recipient_User_Source" ToRole="Recipient_User_Target" />
+        </EntityType>
+        <EntityType Name="ApplicationUser" customannotation:ClrType="MessagingTest.Models.ApplicationUser, MessagingTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Claims" Relationship="Self.ApplicationUser_Claims" FromRole="ApplicationUser_Claims_Source" ToRole="ApplicationUser_Claims_Target" />
+          <NavigationProperty Name="Contacts" Relationship="Self.ApplicationUser_Contacts" FromRole="ApplicationUser_Contacts_Source" ToRole="ApplicationUser_Contacts_Target" />
+          <NavigationProperty Name="IgnoreList" Relationship="Self.ApplicationUser_IgnoreList" FromRole="ApplicationUser_IgnoreList_Source" ToRole="ApplicationUser_IgnoreList_Target" />
+          <NavigationProperty Name="Logins" Relationship="Self.ApplicationUser_Logins" FromRole="ApplicationUser_Logins_Source" ToRole="ApplicationUser_Logins_Target" />
+          <NavigationProperty Name="Roles" Relationship="Self.ApplicationUser_Roles" FromRole="ApplicationUser_Roles_Source" ToRole="ApplicationUser_Roles_Target" />
+        </EntityType>
+        <EntityType Name="IdentityUserClaim" customannotation:ClrType="Microsoft.AspNet.Identity.EntityFramework.IdentityUserClaim, Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Contact" customannotation:ClrType="MessagingTest.Models.Contact, MessagingTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="InitiatorId" />
+            <PropertyRef Name="RecieverId" />
+          </Key>
+          <Property Name="InitiatorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RecieverId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Self.ContactRequestStatus" Nullable="false" />
+          <NavigationProperty Name="Initiator" Relationship="Self.ApplicationUser_Contacts" FromRole="ApplicationUser_Contacts_Target" ToRole="ApplicationUser_Contacts_Source" />
+          <NavigationProperty Name="Reciever" Relationship="Self.Contact_Reciever" FromRole="Contact_Reciever_Source" ToRole="Contact_Reciever_Target" />
+        </EntityType>
+        <EntityType Name="Ignore" customannotation:ClrType="MessagingTest.Models.Ignore, MessagingTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="InitiatorId" />
+            <PropertyRef Name="RecieverId" />
+          </Key>
+          <Property Name="InitiatorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RecieverId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Initiator" Relationship="Self.ApplicationUser_IgnoreList" FromRole="ApplicationUser_IgnoreList_Target" ToRole="ApplicationUser_IgnoreList_Source" />
+          <NavigationProperty Name="Reciever" Relationship="Self.Ignore_Reciever" FromRole="Ignore_Reciever_Source" ToRole="Ignore_Reciever_Target" />
+        </EntityType>
+        <EntityType Name="IdentityUserLogin" customannotation:ClrType="Microsoft.AspNet.Identity.EntityFramework.IdentityUserLogin, Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdentityUserRole" customannotation:ClrType="Microsoft.AspNet.Identity.EntityFramework.IdentityUserRole, Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdentityRole" customannotation:ClrType="Microsoft.AspNet.Identity.EntityFramework.IdentityRole, Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.IdentityRole_Users" FromRole="IdentityRole_Users_Source" ToRole="IdentityRole_Users_Target" />
+        </EntityType>
+        <EnumType Name="ContactRequestStatus" IsFlags="false" customannotation:ClrType="MessagingTest.Models.ContactRequestStatus, MessagingTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+          <Member Name="Pending" Value="0" />
+          <Member Name="Approved" Value="1" />
+          <Member Name="Denied" Value="2" />
+        </EnumType>
+        <Association Name="Recipient_Message">
+          <End Role="Recipient_Message_Source" Type="Self.Recipient" Multiplicity="*" />
+          <End Role="Recipient_Message_Target" Type="Self.Message" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Recipient_Message_Target">
+              <PropertyRef Name="MessageId" />
+            </Principal>
+            <Dependent Role="Recipient_Message_Source">
+              <PropertyRef Name="MessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ApplicationUser_Claims">
+          <End Role="ApplicationUser_Claims_Source" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ApplicationUser_Claims_Target" Type="Self.IdentityUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser_Claims_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationUser_Claims_Target">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Contact_Reciever">
+          <End Role="Contact_Reciever_Source" Type="Self.Contact" Multiplicity="*" />
+          <End Role="Contact_Reciever_Target" Type="Self.ApplicationUser" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Contact_Reciever_Target">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact_Reciever_Source">
+              <PropertyRef Name="RecieverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ApplicationUser_Contacts">
+          <End Role="ApplicationUser_Contacts_Source" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ApplicationUser_Contacts_Target" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser_Contacts_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationUser_Contacts_Target">
+              <PropertyRef Name="InitiatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Ignore_Reciever">
+          <End Role="Ignore_Reciever_Source" Type="Self.Ignore" Multiplicity="*" />
+          <End Role="Ignore_Reciever_Target" Type="Self.ApplicationUser" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Ignore_Reciever_Target">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ignore_Reciever_Source">
+              <PropertyRef Name="RecieverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ApplicationUser_IgnoreList">
+          <End Role="ApplicationUser_IgnoreList_Source" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ApplicationUser_IgnoreList_Target" Type="Self.Ignore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser_IgnoreList_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationUser_IgnoreList_Target">
+              <PropertyRef Name="InitiatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ApplicationUser_Logins">
+          <End Role="ApplicationUser_Logins_Source" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ApplicationUser_Logins_Target" Type="Self.IdentityUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser_Logins_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationUser_Logins_Target">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ApplicationUser_Roles">
+          <End Role="ApplicationUser_Roles_Source" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ApplicationUser_Roles_Target" Type="Self.IdentityUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser_Roles_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ApplicationUser_Roles_Target">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Recipient_User">
+          <End Role="Recipient_User_Source" Type="Self.Recipient" Multiplicity="*" />
+          <End Role="Recipient_User_Target" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Recipient_User_Target">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipient_User_Source">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Message_Sender">
+          <End Role="Message_Sender_Source" Type="Self.Message" Multiplicity="*" />
+          <End Role="Message_Sender_Target" Type="Self.ApplicationUser" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Message_Sender_Target">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message_Sender_Source">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IdentityRole_Users">
+          <End Role="IdentityRole_Users_Source" Type="Self.IdentityRole" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdentityRole_Users_Target" Type="Self.IdentityUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IdentityRole_Users_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IdentityRole_Users_Target">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ApplicationDbContext" customannotation:UseClrTypes="true">
+          <EntitySet Name="Messages" EntityType="Self.Message" />
+          <EntitySet Name="Recipients" EntityType="Self.Recipient" />
+          <EntitySet Name="Users" EntityType="Self.ApplicationUser" />
+          <EntitySet Name="IdentityUserClaims" EntityType="Self.IdentityUserClaim" />
+          <EntitySet Name="Contacts" EntityType="Self.Contact" />
+          <EntitySet Name="Ignores" EntityType="Self.Ignore" />
+          <EntitySet Name="IdentityUserLogins" EntityType="Self.IdentityUserLogin" />
+          <EntitySet Name="IdentityUserRoles" EntityType="Self.IdentityUserRole" />
+          <EntitySet Name="Roles" EntityType="Self.IdentityRole" />
+          <AssociationSet Name="Recipient_Message" Association="Self.Recipient_Message">
+            <End Role="Recipient_Message_Source" EntitySet="Recipients" />
+            <End Role="Recipient_Message_Target" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="ApplicationUser_Claims" Association="Self.ApplicationUser_Claims">
+            <End Role="ApplicationUser_Claims_Source" EntitySet="Users" />
+            <End Role="ApplicationUser_Claims_Target" EntitySet="IdentityUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="Contact_Reciever" Association="Self.Contact_Reciever">
+            <End Role="Contact_Reciever_Source" EntitySet="Contacts" />
+            <End Role="Contact_Reciever_Target" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="ApplicationUser_Contacts" Association="Self.ApplicationUser_Contacts">
+            <End Role="ApplicationUser_Contacts_Source" EntitySet="Users" />
+            <End Role="ApplicationUser_Contacts_Target" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="Ignore_Reciever" Association="Self.Ignore_Reciever">
+            <End Role="Ignore_Reciever_Source" EntitySet="Ignores" />
+            <End Role="Ignore_Reciever_Target" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="ApplicationUser_IgnoreList" Association="Self.ApplicationUser_IgnoreList">
+            <End Role="ApplicationUser_IgnoreList_Source" EntitySet="Users" />
+            <End Role="ApplicationUser_IgnoreList_Target" EntitySet="Ignores" />
+          </AssociationSet>
+          <AssociationSet Name="ApplicationUser_Logins" Association="Self.ApplicationUser_Logins">
+            <End Role="ApplicationUser_Logins_Source" EntitySet="Users" />
+            <End Role="ApplicationUser_Logins_Target" EntitySet="IdentityUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="ApplicationUser_Roles" Association="Self.ApplicationUser_Roles">
+            <End Role="ApplicationUser_Roles_Source" EntitySet="Users" />
+            <End Role="ApplicationUser_Roles_Target" EntitySet="IdentityUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="Recipient_User" Association="Self.Recipient_User">
+            <End Role="Recipient_User_Source" EntitySet="Recipients" />
+            <End Role="Recipient_User_Target" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="Message_Sender" Association="Self.Message_Sender">
+            <End Role="Message_Sender_Source" EntitySet="Messages" />
+            <End Role="Message_Sender_Target" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="IdentityRole_Users" Association="Self.IdentityRole_Users">
+            <End Role="IdentityRole_Users_Source" EntitySet="Roles" />
+            <End Role="IdentityRole_Users_Target" EntitySet="IdentityUserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </ConceptualModels>
+    <Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CodeFirstDatabase" CdmEntityContainer="ApplicationDbContext">
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="MessagingTest.Models.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recipients">
+            <EntityTypeMapping TypeName="MessagingTest.Models.Recipient">
+              <MappingFragment StoreEntitySet="Recipient">
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Recieved" ColumnName="Recieved" />
+                <ScalarProperty Name="Read" ColumnName="Read" />
+                <ScalarProperty Name="TimeRecieved" ColumnName="TimeRecieved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MessagingTest.Models.ApplicationUser">
+              <MappingFragment StoreEntitySet="ApplicationUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IdentityUserClaims">
+            <EntityTypeMapping TypeName="MessagingTest.Models.IdentityUserClaim">
+              <MappingFragment StoreEntitySet="IdentityUserClaim">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="MessagingTest.Models.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="InitiatorId" ColumnName="InitiatorId" />
+                <ScalarProperty Name="RecieverId" ColumnName="RecieverId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ignores">
+            <EntityTypeMapping TypeName="MessagingTest.Models.Ignore">
+              <MappingFragment StoreEntitySet="Ignore">
+                <ScalarProperty Name="InitiatorId" ColumnName="InitiatorId" />
+                <ScalarProperty Name="RecieverId" ColumnName="RecieverId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IdentityUserLogins">
+            <EntityTypeMapping TypeName="MessagingTest.Models.IdentityUserLogin">
+              <MappingFragment StoreEntitySet="IdentityUserLogin">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IdentityUserRoles">
+            <EntityTypeMapping TypeName="MessagingTest.Models.IdentityUserRole">
+              <MappingFragment StoreEntitySet="IdentityUserRole">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="MessagingTest.Models.IdentityRole">
+              <MappingFragment StoreEntitySet="IdentityRole">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </Mappings>
+    <StorageModels>
+      <Schema Namespace="CodeFirstDatabaseSchema" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SenderId" Type="nvarchar" customannotation:Index="{ Name: IX_SenderId, Order: 0 }" MaxLength="128" Nullable="true" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Recipient">
+          <Key>
+            <PropertyRef Name="MessageId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="MessageId" Type="bigint" customannotation:Index="{ Name: IX_MessageId, Order: 0 }" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" customannotation:Index="{ Name: IX_UserId, Order: 0 }" MaxLength="128" Nullable="false" />
+          <Property Name="Recieved" Type="bit" Nullable="false" />
+          <Property Name="Read" Type="bit" Nullable="false" />
+          <Property Name="TimeRecieved" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ApplicationUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="true" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" Nullable="true" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" customannotation:Index="{ Name: UserNameIndex, IsUnique: True }" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdentityUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" customannotation:Index="{ Name: IX_UserId, Order: 0 }" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="InitiatorId" />
+            <PropertyRef Name="RecieverId" />
+          </Key>
+          <Property Name="InitiatorId" Type="nvarchar" customannotation:Index="{ Name: IX_InitiatorId, Order: 0 }" MaxLength="128" Nullable="false" />
+          <Property Name="RecieverId" Type="nvarchar" customannotation:Index="{ Name: IX_RecieverId, Order: 0 }" MaxLength="128" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ignore">
+          <Key>
+            <PropertyRef Name="InitiatorId" />
+            <PropertyRef Name="RecieverId" />
+          </Key>
+          <Property Name="InitiatorId" Type="nvarchar" customannotation:Index="{ Name: IX_InitiatorId, Order: 0 }" MaxLength="128" Nullable="false" />
+          <Property Name="RecieverId" Type="nvarchar" customannotation:Index="{ Name: IX_RecieverId, Order: 0 }" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdentityUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" customannotation:Index="{ Name: IX_UserId, Order: 0 }" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdentityUserRole">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" customannotation:Index="{ Name: IX_UserId, Order: 0 }" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" customannotation:Index="{ Name: IX_RoleId, Order: 0 }" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdentityRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: RoleNameIndex, IsUnique: True }" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <Association Name="Recipient_Message">
+          <End Role="Message" Type="Self.Message" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Recipient" Type="Self.Recipient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="MessageId" />
+            </Principal>
+            <Dependent Role="Recipient">
+              <PropertyRef Name="MessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ApplicationUser_Claims">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdentityUserClaim" Type="Self.IdentityUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IdentityUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Contact_Reciever">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="RecieverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ApplicationUser_Contacts">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="InitiatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Ignore_Reciever">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="1" />
+          <End Role="Ignore" Type="Self.Ignore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ignore">
+              <PropertyRef Name="RecieverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ApplicationUser_IgnoreList">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ignore" Type="Self.Ignore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ignore">
+              <PropertyRef Name="InitiatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ApplicationUser_Logins">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdentityUserLogin" Type="Self.IdentityUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IdentityUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ApplicationUser_Roles">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdentityUserRole" Type="Self.IdentityUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IdentityUserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Recipient_User">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Recipient" Type="Self.Recipient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipient">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Message_Sender">
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="0..1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IdentityRole_Users">
+          <End Role="IdentityRole" Type="Self.IdentityRole" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdentityUserRole" Type="Self.IdentityUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IdentityRole">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IdentityUserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CodeFirstDatabase">
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" Table="Messages" />
+          <EntitySet Name="Recipient" EntityType="Self.Recipient" Schema="dbo" Table="Recipients" />
+          <EntitySet Name="ApplicationUser" EntityType="Self.ApplicationUser" Schema="dbo" Table="AspNetUsers" />
+          <EntitySet Name="IdentityUserClaim" EntityType="Self.IdentityUserClaim" Schema="dbo" Table="AspNetUserClaims" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" Table="Contacts" />
+          <EntitySet Name="Ignore" EntityType="Self.Ignore" Schema="dbo" Table="Ignores" />
+          <EntitySet Name="IdentityUserLogin" EntityType="Self.IdentityUserLogin" Schema="dbo" Table="AspNetUserLogins" />
+          <EntitySet Name="IdentityUserRole" EntityType="Self.IdentityUserRole" Schema="dbo" Table="AspNetUserRoles" />
+          <EntitySet Name="IdentityRole" EntityType="Self.IdentityRole" Schema="dbo" Table="AspNetRoles" />
+          <AssociationSet Name="Recipient_Message" Association="Self.Recipient_Message">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Recipient" EntitySet="Recipient" />
+          </AssociationSet>
+          <AssociationSet Name="ApplicationUser_Claims" Association="Self.ApplicationUser_Claims">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="IdentityUserClaim" EntitySet="IdentityUserClaim" />
+          </AssociationSet>
+          <AssociationSet Name="Contact_Reciever" Association="Self.Contact_Reciever">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="ApplicationUser_Contacts" Association="Self.ApplicationUser_Contacts">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="Ignore_Reciever" Association="Self.Ignore_Reciever">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="Ignore" EntitySet="Ignore" />
+          </AssociationSet>
+          <AssociationSet Name="ApplicationUser_IgnoreList" Association="Self.ApplicationUser_IgnoreList">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="Ignore" EntitySet="Ignore" />
+          </AssociationSet>
+          <AssociationSet Name="ApplicationUser_Logins" Association="Self.ApplicationUser_Logins">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="IdentityUserLogin" EntitySet="IdentityUserLogin" />
+          </AssociationSet>
+          <AssociationSet Name="ApplicationUser_Roles" Association="Self.ApplicationUser_Roles">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="IdentityUserRole" EntitySet="IdentityUserRole" />
+          </AssociationSet>
+          <AssociationSet Name="Recipient_User" Association="Self.Recipient_User">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="Recipient" EntitySet="Recipient" />
+          </AssociationSet>
+          <AssociationSet Name="Message_Sender" Association="Self.Message_Sender">
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="IdentityRole_Users" Association="Self.IdentityRole_Users">
+            <End Role="IdentityRole" EntitySet="IdentityRole" />
+            <End Role="IdentityUserRole" EntitySet="IdentityUserRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </StorageModels>
+  </Runtime>
+  <Designer>
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="ProcessDependentTemplatesOnSave" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <Diagrams >
+      <Diagram DiagramId="398ac3f91b454de088f805a8b637aef0" Name="Diagram1">
+        <EntityTypeShape EntityType="MessagingTest.Models.Message" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessagingTest.Models.Recipient" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessagingTest.Models.ApplicationUser" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessagingTest.Models.IdentityUserClaim" Width="1.5" PointX="7.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessagingTest.Models.Contact" Width="1.5" PointX="7.5" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessagingTest.Models.Ignore" Width="1.5" PointX="7.5" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessagingTest.Models.IdentityUserLogin" Width="1.5" PointX="9.5" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessagingTest.Models.IdentityUserRole" Width="1.5" PointX="10.5" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessagingTest.Models.IdentityRole" Width="1.5" PointX="9.625" PointY="5.125" IsExpanded="true" />
+        <AssociationConnector Association="MessagingTest.Models.Recipient_Message" ManuallyRouted="false" />
+        <AssociationConnector Association="MessagingTest.Models.ApplicationUser_Claims" ManuallyRouted="false" />
+        <AssociationConnector Association="MessagingTest.Models.Contact_Reciever" ManuallyRouted="false" />
+        <AssociationConnector Association="MessagingTest.Models.ApplicationUser_Contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="MessagingTest.Models.Ignore_Reciever" ManuallyRouted="false" />
+        <AssociationConnector Association="MessagingTest.Models.ApplicationUser_IgnoreList" ManuallyRouted="false" />
+        <AssociationConnector Association="MessagingTest.Models.ApplicationUser_Logins" ManuallyRouted="false" />
+        <AssociationConnector Association="MessagingTest.Models.ApplicationUser_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="MessagingTest.Models.Recipient_User" ManuallyRouted="false" />
+        <AssociationConnector Association="MessagingTest.Models.Message_Sender" ManuallyRouted="false" />
+        <AssociationConnector Association="MessagingTest.Models.IdentityRole_Users" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</Edmx>

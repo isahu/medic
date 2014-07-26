@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Messaging";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Signed in as @User.Identity.Name</h3>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/ViewModels/MsgVMClasses.js")
+    @Scripts.Render("~/Scripts/ViewModels/MsgViewModel.js");
+}
