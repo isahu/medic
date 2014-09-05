@@ -13,5 +13,12 @@ namespace MessagingTest.Hubs
         Task sendRequestResponse(MessageRequestResponse response);
 
         Task sendMessages(MessageBodyStruct[] msgArray);
+
+
+        Task contactsAll(string[] contactNames);
+
+        Task contactAdded(string contactName);
+
+        Task contactRemoved(string contactName);
     }
 }

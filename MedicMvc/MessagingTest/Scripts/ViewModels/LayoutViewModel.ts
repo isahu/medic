@@ -4,11 +4,11 @@
 /// <reference path="MsgVMClasses.ts"/>
 
 class LayoutViewModel {
-    hub: MessageHub;
+    hub: any;//MessageHub;
     unreadCount: KnockoutObservable<number>;
     statusText: KnockoutComputed<string>;
 
-    constructor(hub: MessageHub) {
+    constructor(hub: any) {
         this.hub = hub;
         this.unreadCount = ko.observable(0);
         this.statusText = ko.computed({
@@ -31,7 +31,7 @@ class LayoutViewModel {
 var layoutVM: LayoutViewModel;
 
 $(() => {
-    var msgHub: MessageHub = $.connection.messageHub;
+    var msgHub: any;// MessageHub = $.connection.messageHub;
 
     layoutVM = new LayoutViewModel(msgHub);
 

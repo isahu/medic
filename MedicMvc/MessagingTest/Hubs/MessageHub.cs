@@ -121,14 +121,39 @@ namespace MessagingTest.Hubs
                 var query = from c in db.Contacts
                             where c.RecieverId == id && c.Status == ContactRequestStatus.Pending
                             select c;
-
-
             }
         }
 
-        public async void ApproveContacts()
+        public async void ApproveContacts(string[] names)
         {
+            var id = Context.User.Identity.GetUserId();
 
+            using (var db = new ApplicationDbContext())
+            {
+                var query = from c in db.Contacts
+                            where c.RecieverId == id && c.Status == ContactRequestStatus.Pending && names.Contains(c.Initiator.UserName)
+                            select c;
+                foreach (var c in query)
+                {
+                    c.Status = ContactRequestStatus.Approved;
+                    db.Contacts.Attach(c);
+                    db.Contacts.Add(new Contact() { InitiatorId = c.RecieverId, RecieverId = id, Status = ContactRequestStatus.Approved });
+                    await ContactsAdd(c.Initiator.UserName, c.Reciever.UserName);
+                    await ContactsAdd(c.Reciever.UserName, c.Initiator.UserName);
+                }
+            }
+        }
+
+        public async void FetchContacts()
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var userId = Context.User.Identity.GetUserId();
+                var query = from c in db.Contacts
+                            where c.InitiatorId == userId && c.Status == ContactRequestStatus.Approved
+                            select c.Reciever.UserName;
+                await Clients.Caller.contactsAll(query.ToArray());
+            }
         }
 
         #region Private Methods (to Client)
@@ -153,6 +178,11 @@ namespace MessagingTest.Hubs
         private async Task SendContactRequests(string name, params ContactRequestStatus[] status)
         {
 
+        }
+
+        private async Task ContactsAdd(string userName, string contactName)
+        {
+            await Clients.Group(userName).contactAdded(contactName);
         }
 
         #endregion // Private Methods (to Client)

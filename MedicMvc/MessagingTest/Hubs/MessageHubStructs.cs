@@ -44,6 +44,9 @@ public struct MessageBodyStruct
     [JsonProperty("timestamp")]
     public DateTime Timestamp { get; set; }
 
+    [JsonProperty("conversationId")]
+    public long Conversation { get; set; }
+
     [JsonProperty("text")]
     public string Text { get; set; }
 }

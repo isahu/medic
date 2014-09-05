@@ -98,11 +98,11 @@ interface MessageHubServer {
 
       * @param message {string} 
 
-      * @param userNames {string[]} 
+      * @param convId {number} 
 
       * @return {JQueryPromise of void}
       */
-    sendMessage(message : string, userNames : string[]) : JQueryPromise<void>;
+    sendMessage(message : string, convId : number) : JQueryPromise<void>;
 
 
     /** 
@@ -125,6 +125,33 @@ interface MessageHubServer {
       * @return {JQueryPromise of void}
       */
     messageRead(messageId : number) : JQueryPromise<void>;
+
+
+    /** 
+      * Sends a "fetchContactRequests" message to the MessageHub hub.
+      * Contract Documentation: ---
+
+      * @return {JQueryPromise of void}
+      */
+    fetchContactRequests() : JQueryPromise<void>;
+
+
+    /** 
+      * Sends a "approveContacts" message to the MessageHub hub.
+      * Contract Documentation: ---
+
+      * @return {JQueryPromise of void}
+      */
+    approveContacts() : JQueryPromise<void>;
+
+
+    /** 
+      * Sends a "fetchContacts" message to the MessageHub hub.
+      * Contract Documentation: ---
+
+      * @return {JQueryPromise of void}
+      */
+    fetchContacts() : JQueryPromise<void>;
 
 }
 
@@ -166,6 +193,39 @@ interface MessageHubClient
       */
     sendMessages : (msgArray : MessageBodyStruct[]) => void;
 
+
+    /**
+      * Set this function with a "function(contactNames : string[]){}" to receive the "contactsAll" message from the MessageHub hub.
+      * Contract Documentation: ---
+
+      * @param contactNames {string[]} 
+
+      * @return {void}
+      */
+    contactsAll : (contactNames : string[]) => void;
+
+
+    /**
+      * Set this function with a "function(contactName : string){}" to receive the "contactAdded" message from the MessageHub hub.
+      * Contract Documentation: ---
+
+      * @param contactName {string} 
+
+      * @return {void}
+      */
+    contactAdded : (contactName : string) => void;
+
+
+    /**
+      * Set this function with a "function(contactName : string){}" to receive the "contactRemoved" message from the MessageHub hub.
+      * Contract Documentation: ---
+
+      * @param contactName {string} 
+
+      * @return {void}
+      */
+    contactRemoved : (contactName : string) => void;
+
 }
 
 
@@ -191,6 +251,8 @@ interface MessageBodyStruct {
     Sender : string;
 
     Timestamp : string;
+
+    Conversation : number;
 
     Text : string;
 

@@ -14,8 +14,8 @@ namespace MessagingTest
             // Variables
             bundles.UseCdn = true;
             var nullBuilder = new NullBuilder();
-            var cssTransformer = new CssTransformer();
-            var jsTransformer = new JsTransformer();
+            var cssTransformer = new StyleTransformer();
+            var jsTransformer = new ScriptTransformer();
             var nullOrderer = new NullOrderer();
 
             // JavaScript

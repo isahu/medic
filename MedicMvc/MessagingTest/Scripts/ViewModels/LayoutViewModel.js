@@ -28,7 +28,7 @@ var LayoutViewModel = (function () {
 var layoutVM;
 
 $(function () {
-    var msgHub = $.connection.messageHub;
+    var msgHub;
 
     layoutVM = new LayoutViewModel(msgHub);
 
